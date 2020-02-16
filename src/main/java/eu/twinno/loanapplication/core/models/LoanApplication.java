@@ -1,6 +1,7 @@
 package eu.twinno.loanapplication.core.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "loan_applications")
+@NoArgsConstructor
 public class LoanApplication {
 
     public enum RequestedTermType{

@@ -23,6 +23,11 @@ public class LoanApplicationController {
         return loanApplicationService.getAllApplications();
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id){
+        loanApplicationService.delete(id);
+    }
+
 
 
 

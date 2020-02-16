@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,5 +21,18 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     @Override
     public List<LoanApplication> getAllApplications() {
         return loanApplicationRepository.findAll();
+    }
+
+    @Override
+    public void delete(Integer id) {
+        validate(id);
+        Optional<LoanApplication> loanApplication = loanApplicationRepository.findById(id);
+        if(loanApplication.isPresent()){
+            loanApplicationRepository.delete(loanApplication.get());
+        }
+    }
+
+    private void validate(Integer id) {
+
     }
 }
