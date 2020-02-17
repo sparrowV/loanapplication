@@ -1,10 +1,17 @@
 package eu.twinno.loanapplication.core.controllers;
 
+import eu.twinno.loanapplication.configuration.security.MyUserDetails;
+import eu.twinno.loanapplication.configuration.security.User;
 import eu.twinno.loanapplication.core.models.LoanApplication;
 import eu.twinno.loanapplication.core.services.LoanApplicationService;
+import eu.twinno.loanapplication.core.utils.Dto;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -14,8 +21,10 @@ public class LoanApplicationController {
     private final LoanApplicationService loanApplicationService;
 
     @PostMapping
-    public void create(@RequestBody LoanApplication loanApplication){
-        loanApplicationService.create(loanApplication);
+    public Dto create(@Valid  @RequestBody LoanApplication loanApplication, BindingResult bindingResult, Principal principal){
+
+        return loanApplicationService.create(loanApplication,bindingResult,((MyUserDetails)((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser());
+
     }
 
     @GetMapping

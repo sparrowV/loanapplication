@@ -1,6 +1,8 @@
 package eu.twinno.loanapplication.configuration.security;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "authorities")
+@JsonIgnoreType
 public class Authority {
 
     @Id

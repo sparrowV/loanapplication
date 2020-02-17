@@ -1,9 +1,14 @@
 package eu.twinno.loanapplication.core.services;
 
+import eu.twinno.loanapplication.configuration.security.User;
 import eu.twinno.loanapplication.core.models.LoanApplication;
 import eu.twinno.loanapplication.core.repositories.LoanApplicationRepository;
+import eu.twinno.loanapplication.core.utils.Dto;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +19,12 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     private final LoanApplicationRepository loanApplicationRepository;
 
     @Override
-    public void create(LoanApplication loanApplication) {
-        loanApplicationRepository.save(loanApplication);
+    public Dto create(LoanApplication loanApplication, BindingResult bindingResult,User creator) {
+        if(bindingResult.hasErrors()){
+            return Dto.Result.LOAN_APPLICATION_VALIDATION_FAILED.getResponse(bindingResult.getAllErrors());
+        }
+        loanApplication.setCreator(creator);
+        return Dto.Result.LOAN_APPLICATION_REGISTRATION_SUCCESSFUL.getResponse(loanApplicationRepository.save(loanApplication));
     }
 
     @Override

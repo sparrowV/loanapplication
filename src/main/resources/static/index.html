@@ -1,12 +1,119 @@
 <html>
-    <head>
-        <title>Home</title>
-    </head>
+<head>
+    <title>Home</title>
+    <script src="js/jquary.js"></script>
+<!--    <link rel="stylesheet" href="css/login.css">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!--    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <body>
-        <h1>This is homepage</h1>
-    </body>
+    <style>
+        .wrapper{
+            margin:2%;
+            width:50%;
+        }
 
+        .wrapper .row{
+            margin:1%;
+        }
 
+        legend {
+            background-color: #000;
+            color: #fff;
+            /*padding: 3px 6px;*/
+        }
+        nav{
+            margin:1%;
+            background-color: darkgrey;
+        }
+    </style>
 
+</head>
+
+<body>
+<nav class="nav justify-content-end">
+    <a class="nav-link active" href="/manager.html">manager</a>
+    <a class="nav-link" href="/operator.html">operator</a>
+    <a class="nav-link" href="/loan-applications.html">applications</a>
+
+<!--    <a class="nav-link" href="#">Link</a>-->
+<!--    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+</nav>
+<div  class="wrapper" >
+    <form action="/loanApplication" method="POST" id="loanApplicationForm" onsubmit="return false;">
+        <fieldset class="border border-secondary" >
+        <legend>Loan Application</legend>
+        <div class="row">
+            <div class="col-sm">
+                <label for="firstName">First Name:</label>
+                <input type="text" class="form-control" placeholder="First name" name="firstName" id="firstName" required>
+            </div>
+            <div class="col-sm">
+                <label for="lastName">Last Name:</label>
+                <input type="text" class="form-control" placeholder="Last name" name="lastName" id="lastName" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <label for="personalId">Personal Id:</label>
+                <input type="text" class="form-control" placeholder="personal id" size="11" name="personalId" id="personalId" required>
+            </div>
+            <div class="col-sm">
+                <label for="birthDate">Birth Date:</label>
+                <input type="date" class="form-control" placeholder="birth date" name="birthDate" id="birthDate" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <label for="employer">Employer:</label>
+                <input type="text" class="form-control" placeholder="employer" name="employer" id="employer" required>
+            </div>
+            <div class="col-sm">
+                <label for="salary">Salary:</label>
+                <input type="number" class="form-control" placeholder="salary" name="salary" id="salary" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <label for="monthlyLiability">Monthly Liability:</label>
+                <input type="number" class="form-control" placeholder="monthly liability" name="monthlyLiability" id="monthlyLiability" required>
+            </div>
+            <div class="col-sm">
+                <label for="requestedAmount">Requested Amount:</label>
+                <input type="number" class="form-control" placeholder="requested amount" name="requestedAmount" id="requestedAmount" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <label for="requestedTermType">Requested Term Type:</label>
+                <select  id="requestedTermType" name="requestedTermType" class="form-control">
+                    <option disabled selected hidden>Select term type</option>
+                    <option>DAY</option>
+                    <option>MONTH</option>
+                </select>
+            </div>
+            <div class="col-sm">
+                <label for="requestedTerm">Requested Term:</label>
+                <input type="number" class="form-control" placeholder="requested term" name="requestedTerm" id="requestedTerm" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <button type="submit" class="btn btn-primary" id="submitApplication">Submit</button>
+            </div>
+        </div>
+        </fieldset>
+    </form>
+
+</div>
+<script src="js/application.js">
+    addEventListeners();
+</script>
+
+</body>
 </html>

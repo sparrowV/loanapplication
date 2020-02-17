@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -37,5 +39,33 @@ public class UserServiceImpl implements UserService {
         });
         user.setEnabled(true);
         return Dto.Result.REGISTRATION_SUCCESSFUL.getResponse(userRepository.save(user));
+    }
+
+    @Override
+    public List<User> getAll() {
+        List<User> users = userRepository.findAll();
+        users.forEach(user->{
+            user.getAuthorities().forEach(authority ->{
+                if(authority.getAuthorityName().contains("OPERATOR")){
+                    user.setOperator(true);
+                }
+            } );
+        });
+        return users;
+    }
+
+    @Override
+    public Dto makeUserOperator(Integer userId, User currentUser) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(!optionalUser.isPresent()){
+            return Dto.Result.USER_DOES_NOT_EXIST.getResponse();
+        }
+        User user = optionalUser.get();
+        if(user.getId().equals(currentUser.getId())){
+            return Dto.Result.CHANGE_STATUS_TO_HIMSELF_ERROR.getResponse();
+        }
+        Authority roleOperator = authorityService.findByAuthorityNameAndActiveTrue("ROLE_OPERATOR");
+        user.getAuthorities().add(roleOperator);
+        return Dto.Result.STATUS_CHANGE_SUCCESSFUL.getResponse(userRepository.save(user));
     }
 }

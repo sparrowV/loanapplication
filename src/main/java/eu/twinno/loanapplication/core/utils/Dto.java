@@ -8,6 +8,11 @@ public class Dto {
     public enum Result {
         OK(0, "OK"),
         REGISTRATION_SUCCESSFUL(0,"registration was successful!"),
+        LOAN_APPLICATION_REGISTRATION_SUCCESSFUL(0,"loan application was registered successfully"),
+        LOAN_APPLICATION_VALIDATION_FAILED(2,"validation of the given loan application failed"),
+        CHANGE_STATUS_TO_HIMSELF_ERROR(4,"you can't change status to yourself"),
+        USER_DOES_NOT_EXIST(3,"user does not exist"),
+        STATUS_CHANGE_SUCCESSFUL(5,"status change was successful"),
         USERNAME_TAKEN(1,"given username is taken!");
         private int statusCode;
         private String description;

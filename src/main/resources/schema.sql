@@ -11,6 +11,10 @@ create table loan_applications
     requested_amount decimal(12,2),
     requested_term int not null,
     requested_term_type int not null,
+    operator_id int,
+    creator_id int,
+    status int,
+    score decimal(12,2),
     constraint loan_applications_pk
         primary key (id)
 );

@@ -1,0 +1,19 @@
+body{
+    background-color: #eef7ed !important;
+}
+.wrapper{
+    width:20%;
+    margin:2% auto;
+    background-color: #ceded2;
+}
+.wrapper label{
+    padding-top: 2%;
+}
+
+.registration{
+    margin-top: 2%;
+}
+
+
+
+
