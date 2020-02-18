@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();//not a good idea for production, only for demo purposes
 
-        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-        http.headers().frameOptions().disable();
+//        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+//        http.headers().frameOptions().disable();
     }
 }

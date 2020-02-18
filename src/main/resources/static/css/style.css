@@ -1,0 +1,72 @@
+.approveBtn{
+    background-color: green;
+}
+.rejectBtn{
+    background-color: red;
+}
+#dynamicTable{
+    width:90%;
+    margin:1% auto;
+}
+
+#sortingFields{
+    display: flex;
+    justify-content:flex-end;
+    width:30%;
+}
+
+
+.wrapper{
+    margin:2%;
+    width:50%;
+}
+
+.wrapper .row{
+    margin:1%;
+}
+
+legend {
+    background-color: #000;
+    color: #fff;
+    /*padding: 3px 6px;*/
+}
+nav{
+    margin:1%;
+    background-color: darkgrey;
+}
+
+.container {
+    margin-top: 2%;
+    background-color: darkgrey;
+    padding-bottom: 5px;
+}
+/*}*/
+/*#container form{*/
+/*    !*display: inline-block;*!*/
+/*    align-content: center;*/
+/*    margin: 0 auto !important;*/
+/*}*/
+.container .form-row{
+    /*margin-top: 2% !important;*/
+    padding-top: 3%;
+}
+
+.container .wrapper{
+    width:80%;
+    margin:0 auto;
+}
+.wrapper{
+    /*margin-top:1% !important;*/
+}
+#signIn{
+    margin:10px auto;
+    margin-left: 40%;
+}
+
+.errors{
+    color:red;
+}
+#login-link{
+    width:35%;
+    margin: 0 auto;
+}

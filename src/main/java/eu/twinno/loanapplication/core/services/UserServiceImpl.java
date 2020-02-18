@@ -66,6 +66,6 @@ public class UserServiceImpl implements UserService {
         }
         Authority roleOperator = authorityService.findByAuthorityNameAndActiveTrue("ROLE_OPERATOR");
         user.getAuthorities().add(roleOperator);
-        return Dto.Result.STATUS_CHANGE_SUCCESSFUL.getResponse(userRepository.save(user));
+        return Dto.Result.USER_STATUS_CHANGE_SUCCESSFUL.getResponse(userRepository.save(user));
     }
 }

@@ -8,9 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 @Entity
@@ -25,6 +23,28 @@ public class LoanApplication {
 
     public enum Status {
         APPROVED, REJECTED, MANUAL
+    }
+
+    public enum SortingFields{
+        FIRSTNAME("firstName","firstname"),LASTNAME("lastName","lastname");
+
+        private String fieldValue;
+        private String displayValue;
+
+         SortingFields(String fieldValue,String displayValue){
+            this.fieldValue = fieldValue;
+            this.displayValue = displayValue;
+        }
+
+        public String getFieldValue(){
+             return fieldValue;
+        }
+
+        public String getDisplayValue(){return displayValue;}
+
+        public void setFieldValue(String fieldValue){
+             this.fieldValue = fieldValue;
+        }
     }
 
     @Id

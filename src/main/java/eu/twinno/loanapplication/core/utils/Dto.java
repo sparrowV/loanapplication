@@ -12,8 +12,11 @@ public class Dto {
         LOAN_APPLICATION_VALIDATION_FAILED(2,"validation of the given loan application failed"),
         CHANGE_STATUS_TO_HIMSELF_ERROR(4,"you can't change status to yourself"),
         USER_DOES_NOT_EXIST(3,"user does not exist"),
-        STATUS_CHANGE_SUCCESSFUL(5,"status change was successful"),
-        USERNAME_TAKEN(1,"given username is taken!");
+        USER_STATUS_CHANGE_SUCCESSFUL(0,"status change was successful"),
+        USERNAME_TAKEN(1,"given username is taken!"),
+        LOAN_APPLICATION_DOES_NOT_EXIST(6,"loan application with given id does not exist"),
+        LOAN_APPLICATION_STATUS_CHANGE_ERROR(7,"can't change loan application status"),
+        LOAN_APPLICATION_STATUS_CHANGE_SUCCESSFUL(0,"successfully changed loan application status");
         private int statusCode;
         private String description;
 

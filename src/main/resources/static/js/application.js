@@ -5,7 +5,6 @@ function addEventListeners(){
 function validateFormData(data) {
     var keys = Object.keys(data);
     for(const key of keys){
-            console.log(key);
             if(!data[key]){
                 alert('please give value for field '+key);
                 return -1;
@@ -23,19 +22,15 @@ function validateFormData(data) {
 function  submit() {
     var form = document.getElementById("loanApplicationForm");
     var formData = new FormData(form);
-    console.log(formData);
     var formDataJson = Object.fromEntries(formData);
-    console.log(formDataJson);
-    // var status = validateFormData(formDataJson);
-    // console.log(status);
-    // if(status !==0) return;
+    var status = validateFormData(formDataJson);
+    if(status !==0) return;
     $.ajax({
         url: '/loanApplication',
         data: JSON.stringify(formDataJson),
         contentType: "application/json; charset=utf-8",
         type:'POST',
         success: function(response){
-            console.log(response);
             if(response.statusCode !==0){
                 alert(response.description);
             }else{
@@ -58,7 +53,6 @@ function drawUsersTable(users) {
         "</tr>" +
         "</thead>";
     users.forEach(function (item, index) {
-        console.log(item);
         table+="<tr>";
         table+="<td>"+(index+1)+"</td>";
         table+="<td>"+item['id']+"</td>";
@@ -75,25 +69,24 @@ function drawUsersTable(users) {
     $("#dynamicTable").append(table);
 }
 function  makeOperator(userId) {
-    console.log(userId);
     $.ajax({
         url: '/user/'+userId+"/status",
         type:'PUT',
         success: function(response){
            if(response.statusCode !==0){
                alert(response.description);
+           }else{
+               location.reload();
            }
         }
     });
 }
 
 function displayUsers(forOperator){
-    console.log("sdsd");
     $.ajax({
         url: '/user',
         type:'GET',
         success: function(users){
-            console.log(users);
             drawUsersTable(users);
         }
     });
@@ -117,7 +110,6 @@ function drawLoansTable(data,forOperator){
         "</tr>" +
         "</thead>";
     data.forEach(function (item, index) {
-        console.log(item);
         table+="<tr>";
         table+="<td>"+(index+1)+"</td>";
         table+="<td>"+item['id']+"</td>";
@@ -130,23 +122,107 @@ function drawLoansTable(data,forOperator){
         table+="<td>"+item['requestedTermType']+"</td>";
         table+="<td>"+item['requestedTerm']+"</td>";
         table+="<td>"+item['status']+"</td>";
+        if(forOperator && item['status'] === 'MANUAL'){
+            table+="<td>"
+                +`<div id='${item.id}'>` +
+                        "<button  class='approveBtn' value='APPROVED' onClick='changeApplicationStatus(this)'>APPROVE</button>" +
+                        "<button  class='rejectBtn' value='REJECTED' onClick='changeApplicationStatus(this)'>REJECT</button>" +
+                "</div>"
+                +"</td>";
+        }
         table+="</tr>";
     });
     table+="</tbody>";
     table+="</table>";
     $("#dynamicTable").append(table);
-
 }
-function displayApplications(forOperator){
-    console.log("sdsd");
+
+function changeApplicationStatus(btn){
+    var btnParents = $(btn).parents();
+    var loanAppId = btnParents.eq(0).attr('id');
     $.ajax({
-        url: '/loanApplication',
-        type:'GET',
-        success: function(response){
-            console.log(response);
-            drawLoansTable(response,forOperator);
+        url:`/loanApplication/${loanAppId}/status`,
+        type:'PUT',
+        data:{
+          newStatus:btn.value
+        },
+        success:function (response) {
+            if(response.statusCode !==0){
+                alert(response.description);
+            }else{
+                btnParents.eq(2).remove();
+            }
         }
     });
 }
 
+function displayApplications(forOperator){
+    var data;
+    if(forOperator){
+        data = {"status":"MANUAL"};
+    }
+    $.ajax({
+        url: '/loanApplication',
+        type:'GET',
+        data:data,
+        success: function(response){
+            drawLoansTable(response,forOperator);
+            getSortingFields(forOperator);
+        }
+    });
+}
 
+function getSortingFields(forOperator) {
+    $.ajax({
+        url: '/loanApplication/sortingFields',
+        type:'GET',
+        success: function(sortingFields){
+            createSortingForm(sortingFields,forOperator);
+        }
+    });
+}
+
+function createSortingForm(fields,forOperator) {
+    var div="<div>Direction:";
+     div+=" <select class='browser-default custom-select' name='direction'>"+
+                        "<option value='ASC'>asc</option>"+
+                        "<option value='DESC'>desc</option>"+
+                    "</select>";
+
+
+    div+="</div>";
+    div+="<div>Field:";
+    div+="<select class='browser-default custom-select'  name='sortingDisplayName'>";
+    fields.forEach(function (field) {
+        div+=`<option value=${field}>${field}</option>`;
+
+    });
+    div+="</select>";
+    div+="</div>";
+    // div+="<br/>";
+    div+="<div>";
+    div+="<div>&nbsp;</div>";
+    div+=`<button class='btn btn-primary' onClick='searchLoanApps(${forOperator})'>Search</button>`;
+    div+="</div>";
+    $("#sortingFields").append(div);
+}
+
+
+function searchLoanApps(forOperator) {
+    var direction = document.getElementsByName('direction')[0].value;
+    var sortingDisplayName = document.getElementsByName('sortingDisplayName')[0].value;
+    var data = {"direction":direction,"sortingDisplayName":sortingDisplayName};
+    if(forOperator){
+        data['status']='MANUAL';
+    }
+    $.ajax({
+        url: '/loanApplication',
+        type:'GET',
+        data:data,
+        success: function(loanApps){
+            $("#dynamicTable").empty();
+            drawLoansTable(loanApps,forOperator);
+        }
+    });
+
+}
